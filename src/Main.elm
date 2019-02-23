@@ -7,7 +7,22 @@ import Html.Events exposing (..)
 
 
 main =
-    Browser.sandbox { init = init, update = update, view = view }
+    Browser.element
+        { init = init
+        , update = update
+        , subscriptions = subscriptions
+        , view = view
+        }
+
+
+
+-- COLORS
+
+
+type alias Color =
+    { name : String
+    , hex : String
+    }
 
 
 
@@ -15,13 +30,12 @@ main =
 
 
 type alias Model =
-    { guessInput : String
-    }
+    { guessInput : String }
 
 
-init : Model
-init =
-    { guessInput = "" }
+init : () -> ( Model, Cmd Msg )
+init _ =
+    ( { guessInput = "" }, Cmd.none )
 
 
 
@@ -33,14 +47,23 @@ type Msg
     | CheckGuess
 
 
-update : Msg -> Model -> Model
+update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         ChangeGuess newGuess ->
-            { model | guessInput = newGuess }
+            ( { model | guessInput = newGuess }, Cmd.none )
 
         CheckGuess ->
-            { model | guessInput = "" }
+            ( { model | guessInput = "" }, Cmd.none )
+
+
+
+-- SUBSCRIPTIONS
+
+
+subscriptions : Model -> Sub Msg
+subscriptions model =
+    Sub.none
 
 
 
