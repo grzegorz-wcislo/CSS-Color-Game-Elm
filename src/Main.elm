@@ -30,6 +30,7 @@ init =
 
 type Msg
     = ChangeGuess String
+    | CheckGuess
 
 
 update : Msg -> Model -> Model
@@ -37,6 +38,9 @@ update msg model =
     case msg of
         ChangeGuess newGuess ->
             { model | guessInput = newGuess }
+
+        CheckGuess ->
+            { model | guessInput = "" }
 
 
 
@@ -53,4 +57,5 @@ view model =
             ]
             []
         , div [] [ text model.guessInput ]
+        , button [ onClick CheckGuess ] [ text "Check Guess" ]
         ]
