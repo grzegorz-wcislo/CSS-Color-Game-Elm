@@ -168,20 +168,26 @@ randomColor =
 -- GUESSES
 
 
-type Guess
+type alias Guess =
+    { expected : Color
+    , actual : String
+    }
+
+
+type Correctness
     = Correct
     | Incorrect
     | PartiallyCorrect
 
 
-checkGuess : String -> Color -> Guess
-checkGuess guessInput color =
+correctness : Guess -> Correctness
+correctness { expected, actual } =
     let
         guess =
-            String.toLower (String.replace " " "" guessInput)
+            String.toLower (String.replace " " "" actual)
 
         colorName =
-            String.toLower color.name
+            String.toLower expected.name
     in
     if guess == colorName then
         Correct
@@ -247,10 +253,12 @@ update msg model =
         CheckGuess ->
             let
                 guess =
-                    checkGuess model.guessInput model.color
+                    { expected = model.color
+                    , actual = model.guessInput
+                    }
 
                 newScore =
-                    case guess of
+                    case correctness guess of
                         Correct ->
                             model.score + 1
 
