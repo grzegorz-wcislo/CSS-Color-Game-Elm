@@ -4,6 +4,7 @@ import Browser
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (..)
+import Json.Decode as Json
 import Random
 
 
@@ -292,18 +293,75 @@ subscriptions model =
 -- VIEW
 
 
+onEnter : Msg -> Attribute Msg
+onEnter msg =
+    let
+        isEnter code =
+            if code == 13 then
+                Json.succeed msg
+
+            else
+                Json.fail "not ENTER"
+    in
+    on "keydown" (Json.andThen isEnter keyCode)
+
+
 view : Model -> Html Msg
 view model =
-    div []
-        [ h1 [] [ text (String.fromInt model.score) ]
-        , input
-            [ placeholder "Your Guess"
-            , value model.guessInput
-            , onInput ChangeGuess
+    let
+        color =
+            model.color.hex
+
+        setBackgroundColor =
+            style "background-color" color
+    in
+    div [ id "game-canvas", setBackgroundColor ]
+        [ div [ id "score-box" ]
+            [ h1 [ id "score" ] [ text (String.fromInt model.score) ]
+            , tooltipView model.previousGuess
             ]
-            []
-        , div [] [ text (model.color.name ++ " " ++ model.color.hex) ]
-        , div [] [ text model.guessInput ]
-        , button [ onClick CheckGuess ] [ text "Check Guess" ]
-        , div [] [ text (Debug.toString model.previousGuess) ]
+        , div [ id "game" ]
+            [ h1 [ id "color-hex" ] [ text model.color.hex ]
+            , input
+                [ type_ "text"
+                , name "Your Guess"
+                , id "user-guess"
+                , onInput ChangeGuess
+                , onEnter CheckGuess
+                , autocomplete False
+                , autofocus True
+                , value model.guessInput
+                ]
+                []
+            ]
+        , p [ id "confirm-btm", onClick CheckGuess, setBackgroundColor ] [ text "OK" ]
         ]
+
+
+tooltipView : Maybe Guess -> Html Msg
+tooltipView maybeGuess =
+    h2 [ id "tooltip" ]
+        (case maybeGuess of
+            Nothing ->
+                [ text "Name the"
+                , br [] []
+                , text "background color"
+                ]
+
+            Just guess ->
+                let
+                    hint =
+                        [ br [] []
+                        , span [ style "color" guess.expected.hex ] [ text guess.expected.name ]
+                        ]
+                in
+                case correctness guess of
+                    Correct ->
+                        [ text "Good job!" ]
+
+                    Incorrect ->
+                        [ text "Not even close. It was:" ] ++ hint
+
+                    PartiallyCorrect ->
+                        [ text "Close enough. It was:" ] ++ hint
+        )
