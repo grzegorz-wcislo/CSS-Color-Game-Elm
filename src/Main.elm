@@ -165,12 +165,45 @@ randomColor =
 
 
 
+-- GUESSES
+
+
+type Guess
+    = Correct
+    | Incorrect
+    | PartiallyCorrect
+
+
+checkGuess : String -> Color -> Guess
+checkGuess guessInput color =
+    let
+        guess =
+            String.toLower (String.replace " " "" guessInput)
+
+        colorName =
+            String.toLower color.name
+    in
+    if guess == colorName then
+        Correct
+
+    else if
+        (String.length guess >= 4)
+            && String.contains guess colorName
+    then
+        PartiallyCorrect
+
+    else
+        Incorrect
+
+
+
 -- MODEL
 
 
 type alias Model =
     { color : Color
     , guessInput : String
+    , score : Int
     }
 
 
@@ -178,6 +211,7 @@ init : () -> ( Model, Cmd Msg )
 init _ =
     ( { color = Color "white" "#fff"
       , guessInput = ""
+      , score = 0
       }
     , Random.generate ChangeColor randomColor
     )
@@ -197,13 +231,39 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         ChangeGuess newGuess ->
-            ( { model | guessInput = newGuess }, Cmd.none )
+            ( { model
+                | guessInput = newGuess
+              }
+            , Cmd.none
+            )
 
         ChangeColor newColor ->
-            ( { model | color = newColor }, Cmd.none )
+            ( { model
+                | color = newColor
+              }
+            , Cmd.none
+            )
 
         CheckGuess ->
-            ( { model | guessInput = "" }
+            let
+                guess =
+                    checkGuess model.guessInput model.color
+
+                newScore =
+                    case guess of
+                        Correct ->
+                            model.score + 1
+
+                        Incorrect ->
+                            0
+
+                        PartiallyCorrect ->
+                            model.score
+            in
+            ( { model
+                | guessInput = ""
+                , score = newScore
+              }
             , Random.generate ChangeColor randomColor
             )
 
@@ -224,7 +284,8 @@ subscriptions model =
 view : Model -> Html Msg
 view model =
     div []
-        [ input
+        [ h1 [] [ text (String.fromInt model.score) ]
+        , input
             [ placeholder "Your Guess"
             , value model.guessInput
             , onInput ChangeGuess
