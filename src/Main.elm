@@ -210,6 +210,7 @@ type alias Model =
     { color : Color
     , guessInput : String
     , score : Int
+    , previousGuess : Maybe Guess
     }
 
 
@@ -218,6 +219,7 @@ init _ =
     ( { color = Color "white" "#fff"
       , guessInput = ""
       , score = 0
+      , previousGuess = Nothing
       }
     , Random.generate ChangeColor randomColor
     )
@@ -271,6 +273,7 @@ update msg model =
             ( { model
                 | guessInput = ""
                 , score = newScore
+                , previousGuess = Just guess
               }
             , Random.generate ChangeColor randomColor
             )
@@ -302,4 +305,5 @@ view model =
         , div [] [ text (model.color.name ++ " " ++ model.color.hex) ]
         , div [] [ text model.guessInput ]
         , button [ onClick CheckGuess ] [ text "Check Guess" ]
+        , div [] [ text (Debug.toString model.previousGuess) ]
         ]
