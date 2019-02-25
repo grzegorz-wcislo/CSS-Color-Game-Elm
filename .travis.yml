@@ -1,0 +1,14 @@
+language: elm
+jobs:
+  include:
+    - stage: deploy
+      before_script:
+        - npm install -g uglify-js
+      script: "./build.sh"
+      deploy:
+        provider: pages
+        skip-cleanup: true
+        github-token: $GITHUB_TOKEN
+        local-dir: "out/"
+        on:
+          branch: master
