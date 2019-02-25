@@ -1,18 +1,20 @@
 module Main exposing (Model, Msg(..), init, main, update, view)
 
 import Browser
-import Html exposing (..)
-import Html.Attributes exposing (..)
+import Browser.Dom
+import Html exposing (Html, br, div, form, h1, h2, input, p, span, text)
+import Html.Attributes exposing (autocomplete, autofocus, id, name, style, type_, value)
 import Html.Events exposing (..)
 import Json.Decode as Json
 import Random
+import Task
 
 
 main =
     Browser.element
         { init = init
         , update = update
-        , subscriptions = subscriptions
+        , subscriptions = always Sub.none
         , view = view
         }
 
@@ -231,14 +233,19 @@ init _ =
 
 
 type Msg
-    = ChangeGuess String
+    = NoOp
+    | ChangeGuess String
     | ChangeColor Color
     | CheckGuess
+    | FocusInput
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
+        NoOp ->
+            ( model, Cmd.none )
+
         ChangeGuess newGuess ->
             ( { model
                 | guessInput = newGuess
@@ -279,31 +286,12 @@ update msg model =
             , Random.generate ChangeColor randomColor
             )
 
-
-
--- SUBSCRIPTIONS
-
-
-subscriptions : Model -> Sub Msg
-subscriptions model =
-    Sub.none
+        FocusInput ->
+            ( model, Task.attempt (always NoOp) (Browser.Dom.focus "user-guess") )
 
 
 
 -- VIEW
-
-
-onEnter : Msg -> Attribute Msg
-onEnter msg =
-    let
-        isEnter code =
-            if code == 13 then
-                Json.succeed msg
-
-            else
-                Json.fail "not ENTER"
-    in
-    on "keydown" (Json.andThen isEnter keyCode)
 
 
 view : Model -> Html Msg
@@ -322,19 +310,21 @@ view model =
             ]
         , div [ id "game" ]
             [ h1 [ id "color-hex" ] [ text model.color.hex ]
-            , input
-                [ type_ "text"
-                , name "Your Guess"
-                , id "user-guess"
-                , onInput ChangeGuess
-                , onEnter CheckGuess
-                , autocomplete False
-                , autofocus True
-                , value model.guessInput
+            , form [ onSubmit CheckGuess ]
+                [ input
+                    [ type_ "text"
+                    , name "Your Guess"
+                    , id "user-guess"
+                    , onInput ChangeGuess
+                    , onBlur FocusInput
+                    , autocomplete False
+                    , autofocus True
+                    , value model.guessInput
+                    ]
+                    []
                 ]
-                []
+            , p [ id "confirm-bt", onClick CheckGuess, setBackgroundColor ] [ text "OK" ]
             ]
-        , p [ id "confirm-btm", onClick CheckGuess, setBackgroundColor ] [ text "OK" ]
         ]
 
 
@@ -352,7 +342,13 @@ tooltipView maybeGuess =
                 let
                     hint =
                         [ br [] []
-                        , span [ style "color" guess.expected.hex ] [ text guess.expected.name ]
+                        , span
+                            [ id "previous-color"
+                            , style
+                                "color"
+                                guess.expected.hex
+                            ]
+                            [ text guess.expected.name ]
                         ]
                 in
                 case correctness guess of
