@@ -1,6 +1,6 @@
 module Main exposing (Model, Msg(..), init, main, update, view)
 
-import Browser
+import Browser exposing (Document)
 import Browser.Dom
 import Html exposing (Html, br, div, form, h1, h2, input, p, span, text)
 import Html.Attributes exposing (autocomplete, autofocus, id, name, style, type_, value)
@@ -11,7 +11,7 @@ import Task
 
 
 main =
-    Browser.element
+    Browser.document
         { init = init
         , update = update
         , subscriptions = always Sub.none
@@ -294,7 +294,7 @@ update msg model =
 -- VIEW
 
 
-view : Model -> Html Msg
+view : Model -> Document Msg
 view model =
     let
         color =
@@ -303,29 +303,33 @@ view model =
         setBackgroundColor =
             style "background-color" color
     in
-    div [ id "game-canvas", setBackgroundColor ]
-        [ div [ id "score-box" ]
-            [ h1 [ id "score" ] [ text (String.fromInt model.score) ]
-            , tooltipView model.previousGuess
-            ]
-        , div [ id "game" ]
-            [ h1 [ id "color-hex" ] [ text model.color.hex ]
-            , form [ onSubmit CheckGuess ]
-                [ input
-                    [ type_ "text"
-                    , name "Your Guess"
-                    , id "user-guess"
-                    , onInput ChangeGuess
-                    , onBlur FocusInput
-                    , autocomplete False
-                    , autofocus True
-                    , value model.guessInput
-                    ]
-                    []
+    { title = "CSS Color Game"
+    , body =
+        [ div [ id "game-canvas", setBackgroundColor ]
+            [ div [ id "score-box" ]
+                [ h1 [ id "score" ] [ text (String.fromInt model.score) ]
+                , tooltipView model.previousGuess
                 ]
-            , p [ id "confirm-bt", onClick CheckGuess, setBackgroundColor ] [ text "OK" ]
+            , div [ id "game" ]
+                [ h1 [ id "color-hex" ] [ text model.color.hex ]
+                , form [ onSubmit CheckGuess ]
+                    [ input
+                        [ type_ "text"
+                        , name "Your Guess"
+                        , id "user-guess"
+                        , onInput ChangeGuess
+                        , onBlur FocusInput
+                        , autocomplete False
+                        , autofocus True
+                        , value model.guessInput
+                        ]
+                        []
+                    ]
+                , p [ id "confirm-btn", onClick CheckGuess, setBackgroundColor ] [ text "OK" ]
+                ]
             ]
         ]
+    }
 
 
 tooltipView : Maybe Guess -> Html Msg
