@@ -24,156 +24,157 @@ main =
 
 
 type alias Color =
-    { name : String
-    , hex : String
+    { hex : String
+    , names : List String
     }
 
 
 defaultColor : Color
 defaultColor =
-    Color "white" "#fff"
+    Color "#ffffff" [ "white" ]
 
 
 colorList : List Color
 colorList =
-    [ Color "aliceblue" "#f0f8ff"
-    , Color "antiquewhite" "#faebd7"
-    , Color "aqua" "#00ffff"
-    , Color "aquamarine" "#7fffd4"
-    , Color "azure" "#f0ffff"
-    , Color "beige" "#f5f5dc"
-    , Color "bisque" "#ffe4c4"
-    , Color "blanchedalmond" "#ffebcd"
-    , Color "blue" "#0000ff"
-    , Color "blueviolet" "#8a2be2"
-    , Color "brown" "#a52a2a"
-    , Color "burlywood" "#deb887"
-    , Color "cadetblue" "#5f9ea0"
-    , Color "chartreuse" "#7fff00"
-    , Color "chocolate" "#d2691e"
-    , Color "coral" "#ff7f50"
-    , Color "cornflowerblue" "#6495ed"
-    , Color "cornsilk" "#fff8dc"
-    , Color "crimson" "#dc143c"
-    , Color "cyan" "#00ffff"
-    , Color "darkblue" "#00008b"
-    , Color "darkcyan" "#008b8b"
-    , Color "darkgoldenrod" "#b8860b"
-    , Color "darkgreen" "#006400"
-    , Color "darkkhaki" "#bdb76b"
-    , Color "darkmagenta" "#8b008b"
-    , Color "darkolivegreen" "#556b2f"
-    , Color "darkorange" "#ff8c00"
-    , Color "darkorchid" "#9932cc"
-    , Color "darkred" "#8b0000"
-    , Color "darksalmon" "#e9967a"
-    , Color "darkseagreen" "#8fbc8f"
-    , Color "darkslateblue" "#483d8b"
-    , Color "darkturquoise" "#00ced1"
-    , Color "darkviolet" "#9400d3"
-    , Color "deeppink" "#ff1493"
-    , Color "deepskyblue" "#00bfff"
-    , Color "dodgerblue" "#1e90ff"
-    , Color "firebrick" "#b22222"
-    , Color "floralwhite" "#fffaf0"
-    , Color "forestgreen" "#228b22"
-    , Color "fuchsia" "#ff00ff"
-    , Color "gainsboro" "#dcdcdc"
-    , Color "ghostwhite" "#f8f8ff"
-    , Color "gold" "#ffd700"
-    , Color "goldenrod" "#daa520"
-    , Color "green" "#008000"
-    , Color "greenyellow" "#adff2f"
-    , Color "honeydew" "#f0fff0"
-    , Color "hotpink" "#ff69b4"
-    , Color "indianred" "#cd5c5c"
-    , Color "indigo" "#4b0082"
-    , Color "ivory" "#fffff0"
-    , Color "khaki" "#f0e68c"
-    , Color "lavender" "#e6e6fa"
-    , Color "lavenderblush" "#fff0f5"
-    , Color "lawngreen" "#7cfc00"
-    , Color "lemonchiffon" "#fffacd"
-    , Color "lightblue" "#add8e6"
-    , Color "lightcoral" "#f08080"
-    , Color "lightcyan" "#e0ffff"
-    , Color "lightgoldenrodyellow" "#fafad2"
-    , Color "lightgreen" "#90ee90"
-    , Color "lightpink" "#ffb6c1"
-    , Color "lightsalmon" "#ffa07a"
-    , Color "lightseagreen" "#20b2aa"
-    , Color "lightskyblue" "#87cefa"
-    , Color "lightsteelblue" "#b0c4de"
-    , Color "lightyellow" "#ffffe0"
-    , Color "lime" "#00ff00"
-    , Color "limegreen" "#32cd32"
-    , Color "linen" "#faf0e6"
-    , Color "magenta" "#ff00ff"
-    , Color "maroon" "#800000"
-    , Color "mediumaquamarine" "#66cdaa"
-    , Color "mediumblue" "#0000cd"
-    , Color "mediumorchid" "#ba55d3"
-    , Color "mediumpurple" "#9370db"
-    , Color "mediumseagreen" "#3cb371"
-    , Color "mediumslateblue" "#7b68ee"
-    , Color "mediumspringgreen" "#00fa9a"
-    , Color "mediumturquoise" "#48d1cc"
-    , Color "mediumvioletred" "#c71585"
-    , Color "midnightblue" "#191970"
-    , Color "mintcream" "#f5fffa"
-    , Color "mistyrose" "#ffe4e1"
-    , Color "moccasin" "#ffe4b5"
-    , Color "navajowhite" "#ffdead"
-    , Color "navy" "#000080"
-    , Color "oldlace" "#fdf5e6"
-    , Color "olive" "#808000"
-    , Color "olivedrab" "#6b8e23"
-    , Color "orange" "#ffa500"
-    , Color "orangered" "#ff4500"
-    , Color "orchid" "#da70d6"
-    , Color "palegoldenrod" "#eee8aa"
-    , Color "palegreen" "#98fb98"
-    , Color "paleturquoise" "#afeeee"
-    , Color "palevioletred" "#db7093"
-    , Color "papayawhip" "#ffefd5"
-    , Color "peachpuff" "#ffdab9"
-    , Color "peru" "#cd853f"
-    , Color "pink" "#ffc0cb"
-    , Color "plum" "#dda0dd"
-    , Color "powderblue" "#b0e0e6"
-    , Color "purple" "#800080"
-    , Color "rebeccapurple" "#663399"
-    , Color "red" "#ff0000"
-    , Color "rosybrown" "#bc8f8f"
-    , Color "royalblue" "#4169e1"
-    , Color "saddlebrown" "#8b4513"
-    , Color "salmon" "#fa8072"
-    , Color "sandybrown" "#f4a460"
-    , Color "seagreen" "#2e8b57"
-    , Color "seashell" "#fff5ee"
-    , Color "sienna" "#a0522d"
-    , Color "silver" "#c0c0c0"
-    , Color "skyblue" "#87ceeb"
-    , Color "slateblue" "#6a5acd"
-    , Color "snow" "#fffafa"
-    , Color "springgreen" "#00ff7f"
-    , Color "steelblue" "#4682b4"
-    , Color "tan" "#d2b48c"
-    , Color "teal" "#008080"
-    , Color "thistle" "#d8bfd8"
-    , Color "tomato" "#ff6347"
-    , Color "turquoise" "#40e0d0"
-    , Color "violet" "#ee82ee"
-    , Color "wheat" "#f5deb3"
-    , Color "whitesmoke" "#f5f5f5"
-    , Color "yellow" "#ffff00"
-    , Color "yellowgreen" "#9acd32"
+    [ Color "#000000" [ "black" ]
+    , Color "#000080" [ "navy" ]
+    , Color "#00008b" [ "darkblue" ]
+    , Color "#0000cd" [ "mediumblue" ]
+    , Color "#0000ff" [ "blue" ]
+    , Color "#006400" [ "darkgreen" ]
+    , Color "#008000" [ "green" ]
+    , Color "#008080" [ "teal" ]
+    , Color "#008b8b" [ "darkcyan" ]
+    , Color "#00bfff" [ "deepskyblue" ]
+    , Color "#00ced1" [ "darkturquoise" ]
+    , Color "#00fa9a" [ "mediumspringgreen" ]
+    , Color "#00ff00" [ "lime" ]
+    , Color "#00ff7f" [ "springgreen" ]
+    , Color "#00ffff" [ "aqua", "cyan" ]
+    , Color "#191970" [ "midnightblue" ]
+    , Color "#1e90ff" [ "dodgerblue" ]
+    , Color "#20b2aa" [ "lightseagreen" ]
+    , Color "#228b22" [ "forestgreen" ]
+    , Color "#2e8b57" [ "seagreen" ]
+    , Color "#2f4f4f" [ "darkslategray", "darkslategrey" ]
+    , Color "#32cd32" [ "limegreen" ]
+    , Color "#3cb371" [ "mediumseagreen" ]
+    , Color "#40e0d0" [ "turquoise" ]
+    , Color "#4169e1" [ "royalblue" ]
+    , Color "#4682b4" [ "steelblue" ]
+    , Color "#483d8b" [ "darkslateblue" ]
+    , Color "#48d1cc" [ "mediumturquoise" ]
+    , Color "#4b0082" [ "indigo" ]
+    , Color "#556b2f" [ "darkolivegreen" ]
+    , Color "#5f9ea0" [ "cadetblue" ]
+    , Color "#6495ed" [ "cornflowerblue" ]
+    , Color "#66cdaa" [ "mediumaquamarine" ]
+    , Color "#696969" [ "dimgray", "dimgrey" ]
+    , Color "#6a5acd" [ "slateblue" ]
+    , Color "#6b8e23" [ "olivedrab" ]
+    , Color "#708090" [ "slategray", "slategrey" ]
+    , Color "#778899" [ "lightslategray", "lightslategrey" ]
+    , Color "#7b68ee" [ "mediumslateblue" ]
+    , Color "#7cfc00" [ "lawngreen" ]
+    , Color "#7fff00" [ "chartreuse" ]
+    , Color "#7fffd4" [ "aquamarine" ]
+    , Color "#800000" [ "maroon" ]
+    , Color "#800080" [ "purple" ]
+    , Color "#808000" [ "olive" ]
+    , Color "#808080" [ "gray", "grey" ]
+    , Color "#87ceeb" [ "skyblue" ]
+    , Color "#87cefa" [ "lightskyblue" ]
+    , Color "#8a2be2" [ "blueviolet" ]
+    , Color "#8b0000" [ "darkred" ]
+    , Color "#8b008b" [ "darkmagenta" ]
+    , Color "#8b4513" [ "saddlebrown" ]
+    , Color "#8fbc8f" [ "darkseagreen" ]
+    , Color "#90ee90" [ "lightgreen" ]
+    , Color "#9370d8" [ "mediumpurple" ]
+    , Color "#9400d3" [ "darkviolet" ]
+    , Color "#98fb98" [ "palegreen" ]
+    , Color "#9932cc" [ "darkorchid" ]
+    , Color "#9acd32" [ "yellowgreen" ]
+    , Color "#a0522d" [ "sienna" ]
+    , Color "#a52a2a" [ "brown" ]
+    , Color "#a9a9a9" [ "darkgray", "darkgrey" ]
+    , Color "#add8e6" [ "lightblue" ]
+    , Color "#adff2f" [ "greenyellow" ]
+    , Color "#afeeee" [ "paleturquoise" ]
+    , Color "#b0c4de" [ "lightsteelblue" ]
+    , Color "#b0e0e6" [ "powderblue" ]
+    , Color "#b22222" [ "firebrick" ]
+    , Color "#b8860b" [ "darkgoldenrod" ]
+    , Color "#ba55d3" [ "mediumorchid" ]
+    , Color "#bc8f8f" [ "rosybrown" ]
+    , Color "#bdb76b" [ "darkkhaki" ]
+    , Color "#c0c0c0" [ "silver" ]
+    , Color "#c71585" [ "mediumvioletred" ]
+    , Color "#cd5c5c" [ "indianred" ]
+    , Color "#cd853f" [ "peru" ]
+    , Color "#d2691e" [ "chocolate" ]
+    , Color "#d2b48c" [ "tan" ]
+    , Color "#d3d3d3" [ "lightgray", "lightgrey" ]
+    , Color "#d87093" [ "palevioletred" ]
+    , Color "#d8bfd8" [ "thistle" ]
+    , Color "#da70d6" [ "orchid" ]
+    , Color "#daa520" [ "goldenrod" ]
+    , Color "#dc143c" [ "crimson" ]
+    , Color "#dcdcdc" [ "gainsboro" ]
+    , Color "#dda0dd" [ "plum" ]
+    , Color "#deb887" [ "burlywood" ]
+    , Color "#e0ffff" [ "lightcyan" ]
+    , Color "#e6e6fa" [ "lavender" ]
+    , Color "#e9967a" [ "darksalmon" ]
+    , Color "#ee82ee" [ "violet" ]
+    , Color "#eee8aa" [ "palegoldenrod" ]
+    , Color "#f08080" [ "lightcoral" ]
+    , Color "#f0e68c" [ "khaki" ]
+    , Color "#f0f8ff" [ "aliceblue" ]
+    , Color "#f0fff0" [ "honeydew" ]
+    , Color "#f0ffff" [ "azure" ]
+    , Color "#f4a460" [ "sandybrown" ]
+    , Color "#f5deb3" [ "wheat" ]
+    , Color "#f5f5dc" [ "beige" ]
+    , Color "#f5f5f5" [ "whitesmoke" ]
+    , Color "#f5fffa" [ "mintcream" ]
+    , Color "#f8f8ff" [ "ghostwhite" ]
+    , Color "#fa8072" [ "salmon" ]
+    , Color "#faebd7" [ "antiquewhite" ]
+    , Color "#faf0e6" [ "linen" ]
+    , Color "#fafad2" [ "lightgoldenrodyellow" ]
+    , Color "#fdf5e6" [ "oldlace" ]
+    , Color "#ff0000" [ "red" ]
+    , Color "#ff00ff" [ "fuchsia", " magenta" ]
+    , Color "#ff1493" [ "deeppink" ]
+    , Color "#ff4500" [ "orangered" ]
+    , Color "#ff6347" [ "tomato" ]
+    , Color "#ff69b4" [ "hotpink" ]
+    , Color "#ff7f50" [ "coral" ]
+    , Color "#ff8c00" [ "darkorange" ]
+    , Color "#ffa07a" [ "lightsalmon" ]
+    , Color "#ffa500" [ "orange" ]
+    , Color "#ffb6c1" [ "lightpink" ]
+    , Color "#ffc0cb" [ "pink" ]
+    , Color "#ffd700" [ "gold" ]
+    , Color "#ffdab9" [ "peachpuff" ]
+    , Color "#ffdead" [ "navajowhite" ]
+    , Color "#ffe4b5" [ "moccasin" ]
+    , Color "#ffe4c4" [ "bisque" ]
+    , Color "#ffe4e1" [ "mistyrose" ]
+    , Color "#ffebcd" [ "blanchedalmond" ]
+    , Color "#ffefd5" [ "papayawhip" ]
+    , Color "#fff0f5" [ "lavenderblush" ]
+    , Color "#fff5ee" [ "seashell" ]
+    , Color "#fff8dc" [ "cornsilk" ]
+    , Color "#fffacd" [ "lemonchiffon" ]
+    , Color "#fffaf0" [ "floralwhite" ]
+    , Color "#fffafa" [ "snow" ]
+    , Color "#ffff00" [ "yellow" ]
+    , Color "#ffffe0" [ "lightyellow" ]
+    , Color "#fffff0" [ "ivory" ]
+    , Color "#ffffff" [ "white" ]
     ]
-
-
-matchingColors : Color -> List Color -> List Color
-matchingColors color colors =
-    List.filter (\c -> c.hex == color.hex) colors
 
 
 randomColor : Random.Generator Color
@@ -208,20 +209,17 @@ correctness { expected, actual } =
         guess =
             String.toLower (String.replace " " "" actual)
 
-        colorName color =
-            String.toLower color.name
-
-        possibleColors =
-            matchingColors expected colorList
+        possibleColorNames =
+            expected.names |> List.map String.toLower
     in
-    if List.any (\c -> colorName c == guess) possibleColors then
+    if List.any (\c -> c == guess) possibleColorNames then
         Correct
 
     else if
         (String.length guess >= 4)
             && List.any
-                (\c -> String.contains guess (colorName c))
-                possibleColors
+                (String.contains guess)
+                possibleColorNames
     then
         PartiallyCorrect
 
@@ -376,10 +374,7 @@ tooltipView maybeGuess =
                                 "color"
                                 guess.expected.hex
                             ]
-                            [ matchingColors
-                                guess.expected
-                                colorList
-                                |> List.map (\c -> c.name)
+                            [ guess.expected.names
                                 |> String.join " or "
                                 |> text
                             ]
