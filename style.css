@@ -1,0 +1,85 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans:300,700');
+
+* {
+  margin: 0;
+  padding: 0;
+  color: white;
+  font-family: "Open Sans", serif;
+  font-weight: 300;
+
+  -webkit-transition: all 200ms ease-in-out;
+  transition: all 200ms ease-in-out;
+}
+
+#game-canvas {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#score-box, #game {
+  border: 4px solid white;
+  border-radius: 8px;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+#score-box {
+  width: 320px;
+  height: 180px;
+}
+
+#score-box h1 {
+  font-size: 72px;
+  font-weight: 700;
+  text-align: center;
+}
+
+#tooltip {
+  text-align: center;
+}
+
+#previous-color {
+  font-weight: 700;
+}
+
+#game {
+  margin-top: 20px;
+  width: 320px;
+  height: 180px;
+}
+
+#color-hex {
+  text-align: center;
+  margin: 10px 0;
+}
+
+#user-guess {
+  color: black;
+  text-align: center;
+  font-size: 26px;
+  width: 80%;
+  margin: auto;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  display: block;
+}
+
+#confirm-btn {
+  display: block;
+  font-size: 32px;
+  font-weight: 700;
+  border-style: none;
+  border-radius: 16px;
+  padding: 5px;
+  width: 50%;
+  margin: auto;
+  text-align: center;
+  box-shadow: 0px 5px 5px 3px rgba(0, 0, 0, 0.5);
+}
+
+#confirm-btn:hover {
+  cursor: pointer;
+  box-shadow: 0px 10px 10px 3px rgba(0, 0, 0, 0.5);
+}
